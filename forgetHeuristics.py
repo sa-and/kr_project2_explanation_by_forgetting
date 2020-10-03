@@ -1,9 +1,12 @@
 class forgetHeuristics:
 
-    def has_next(self):
+    def choose_next(self):
+        """
+        Must return the filename in which the next signature is stored and the signature.
+        """
         raise "not implemented"
 
-    def choose_next(self):
+    def has_next(self):
         raise "not implemented"
 
 
@@ -19,4 +22,7 @@ class forgetFromList(forgetHeuristics):
             return True
 
     def choose_next(self):
-        return self.signature_list.pop()
+        curr_sig = self.signature_list.pop()
+        with open('datasets\signature.txt', 'w+') as f:
+            f.write(curr_sig)
+        return (curr_sig, 'datasets\signature.txt')

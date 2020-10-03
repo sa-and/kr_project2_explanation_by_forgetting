@@ -26,6 +26,10 @@ class Explainer:
     def print_all_subclasses(self):
         os.system('java -jar kr_functions.jar ' + 'saveAllSubClasses' + " " + self.working_ontology)
 
+    ''' save all subClass statements (explicit and inferred) in the inputOntology to file datasets/subClasses.nt'''
+    def save_all_subclasses(self):
+        os.system('java -jar kr_functions.jar ' + 'saveAllSubClasses' + " " + self.working_ontology)
+
     '''print all explanations for the subclass satements defined in a 'subclassStatements' file'''
     def print_all_explanations(self, subclass_statements_path):
         os.system('java -jar kr_functions.jar ' + 'printAllExplanations' + " " + self.working_ontology + " " + subclass_statements_path)
@@ -96,20 +100,22 @@ class Explainer:
         :return: A list of ontologies with the corresponding signature that was forgotten at each step.
         :type return: list(tuple(string, owl_ontology))
         """
-        # store the original ontology
-        with open(self.ontology) as o:
-            proove = [(None, o.read())]
+        # store the original justification
+        proove = [(None, self.get_all_explanations(subclass_statement)[0])]
 
         while(self.forgetHeuristics.has_next()):
             # set the working ontology to be the justification for the statement.
             justification = self.get_all_explanations(subclass_statement)
-            self.set_working_ontology(justification)  # TODO: this will not work because 'justification' is not in owl format
 
-            signature_to_forget = self.forgetHeuristics.choose_next()  # TODO: might need to put that in a file so that the tool can load it
+            #save the justification to work with it.
+            with open("result.owl", 'w+') as result:  # TODO: a conversion to xml must take place
+                result.write(justification[0])
 
-            self.forget_signature(signature_to_forget)
+            self.set_working_ontology('result.owl')
 
-            self.set_working_ontology("result.owl")
+            signature_to_forget, path = self.forgetHeuristics.choose_next()
+
+            self.forget_signature(path)
 
             # save ontology and signature
             with open("result.owl") as o:

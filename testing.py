@@ -3,10 +3,8 @@
 from explainer import Explainer
 from forgetHeuristics import forgetFromList
 
-forgetHeuristics = forgetFromList([ "http://www.co-ode.org/ontologies/pizza/pizza.owl#American",
-                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza",
-                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"])
-explainer = Explainer("datasets/test.owl", forgetHeuristics)
+forgetHeuristics = forgetFromList([ "http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping"])
+explainer = Explainer("datasets/pizza_super_simple.owl", forgetHeuristics)
 #explainer.print_all_subclasses()
 #explainer.save_all_subclasses()
 #explainer.print_all_explanations('datasets/subClasses.nt')
@@ -15,3 +13,7 @@ explainer = Explainer("datasets/test.owl", forgetHeuristics)
 #explanations = explainer.get_all_explanations('datasets/subClasses.nt')
 #print(explanations)
 proove = explainer.get_proove("datasets/subClasses.nt")
+#print the proove
+for line in proove:
+    print('forgetting ' + str(line[0]))
+    print(str(line[1]))
