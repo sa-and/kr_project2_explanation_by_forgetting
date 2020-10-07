@@ -3,7 +3,9 @@
 from explainer import Explainer
 from forgetHeuristics import forgetFromList
 
-forgetHeuristics = forgetFromList([ "http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping"])
+forgetHeuristics = forgetFromList([ "http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping",
+                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#GoatCheeseTopping",
+                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping"])
 explainer = Explainer("datasets/pizza_super_simple.owl", forgetHeuristics)
 #explainer.print_all_subclasses()
 #explainer.save_all_subclasses()

@@ -1,3 +1,1 @@
-http://www.co-ode.org/ontologies/pizza/pizza.owl#American
-http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza
-http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza
+http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping

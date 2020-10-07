@@ -1,5 +1,6 @@
 import os
 import glob
+from shutil import copy
 
 
 class Explainer:
@@ -53,6 +54,8 @@ class Explainer:
 
         all_paths = glob.glob("datasets/exp-*.owl")
         all_explanations = []
+        if len(all_paths) == 0:
+            all_explanations.append("no justification")
 
         for filename in all_paths:
             with open(filename) as curr_exp:
@@ -100,25 +103,29 @@ class Explainer:
         :return: A list of ontologies with the corresponding signature that was forgotten at each step.
         :type return: list(tuple(string, owl_ontology))
         """
-        # store the original justification
-        proove = [(None, self.get_all_explanations(subclass_statement)[0])]
+        # store the original justification. NOTE: takes only the first justification. Might want to change that.
+        justification = self.get_all_explanations(subclass_statement)[0]
+        proove = [(None, justification)]
 
         while(self.forgetHeuristics.has_next()):
-            # set the working ontology to be the justification for the statement.
-            justification = self.get_all_explanations(subclass_statement)
 
             #save the justification to work with it.
-            with open("result.owl", 'w+') as result:  # TODO: a conversion to xml must take place
-                result.write(justification[0])
+            with open("datasets/result.owl", 'w+') as result:
+                result.write(justification)
 
-            self.set_working_ontology('result.owl')
+            self.set_working_ontology('datasets/result.owl')
 
             signature_to_forget, path = self.forgetHeuristics.choose_next()
 
-            self.forget_signature(path)
+            self.forget_signature(path)  # the resulting ontology is saved in result.owl
+            # unfortunately I could not figure out why it can be saved to datasets\result.owl. So we need to copy it.
+            copy('result.owl', 'datasets/result.owl')
+
+            # set the working ontology to be the first justification for the statement.
+            justification = self.get_all_explanations(subclass_statement)[0]
 
             # save ontology and signature
-            with open("result.owl") as o:
+            with open("datasets/result.owl") as o:
                 proove.append((signature_to_forget, o.read()))
 
         # reset working ontology
