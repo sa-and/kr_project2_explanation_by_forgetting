@@ -1,7 +1,7 @@
 import re
 
-class forgetHeuristics:
 
+class ForgetHeuristics:
     def __init__(self, ontology):
         # the ontology from which the signatures should be choosen (string)
         self.ontology = ontology
@@ -29,8 +29,7 @@ class forgetHeuristics:
         return signatures
 
 
-
-class forgetFromList(forgetHeuristics):
+class ForgetFromList(ForgetHeuristics):
     def __init__(self, ontology, signature_list):
         super().__init__(ontology)
         self.signature_list = signature_list

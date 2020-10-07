@@ -25,7 +25,7 @@ class Explainer:
 
     '''print all subClass statements (explicit and inferred) Ontology    '''
     def print_all_subclasses(self):
-        os.system('java -jar kr_functions.jar ' + 'saveAllSubClasses' + " " + self.working_ontology)
+        os.system('java -jar kr_functions.jar ' + 'printAllSubClasses' + " " + self.working_ontology)
 
     ''' save all subClass statements (explicit and inferred) in the inputOntology to file datasets/subClasses.nt'''
     def save_all_subclasses(self):
@@ -103,8 +103,8 @@ class Explainer:
         :return: A list of ontologies with the corresponding signature that was forgotten at each step.
         :type return: list(tuple(string, owl_ontology))
         """
-        # store the original justification. NOTE: takes only the first justification. Might want to change that.
-        justification = self.get_all_explanations(subclass_statement)[0]
+        # store the shortest of the justifications
+        justification = min(self.get_all_explanations(subclass_statement), key=len)
         proove = [(None, justification)]
 
         while(self.forgetHeuristics.has_next()):
@@ -122,7 +122,7 @@ class Explainer:
             copy('result.owl', 'datasets/result.owl')
 
             # set the working ontology to be the first justification for the statement.
-            justification = self.get_all_explanations(subclass_statement)[0]
+            justification = min(self.get_all_explanations(subclass_statement), key=len)
 
             # save ontology and signature
             with open("datasets/result.owl") as o:
