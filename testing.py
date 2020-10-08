@@ -52,7 +52,7 @@ explainer = Explainer("datasets/pizza.owl", heur)
 
 # testing heuristic
 heur = AndiHeuristic('datasets/pizza.owl',
-                     ("http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyVegetableTopping", "http://www.co-ode.org/ontologies/pizza/pizza.owl#Mild"))
+                     ("http://www.co-ode.org/ontologies/pizza/pizza.owl#Siciliana", "http://www.co-ode.org/ontologies/pizza/pizza.owl#Food"))
 
 explainer = Explainer('datasets/pizza.owl', heur)
 

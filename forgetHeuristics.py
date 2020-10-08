@@ -71,7 +71,13 @@ class AndiHeuristic(ForgetHeuristics):
         self.subsumption = subsumption
 
     def has_next(self):
-        if not self.get_available_signatures():
+        # delete signatures we want to derive from the signature list
+        signatures = self.get_available_signatures()
+        for sub in self.subsumption:
+            if signatures.count(sub) >= 1:
+                signatures.remove(sub)
+
+        if len(signatures) == 0:
             return False
         else:
             return True
