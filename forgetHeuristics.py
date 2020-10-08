@@ -26,14 +26,19 @@ class ForgetHeuristics:
         Scans the ontology for available signatures and returns them
         :return: list of signatures
         """
-        # get the owl namespace
-        ns_regex =r"xmlns=\S*[ \n]"
-        ns = re.findall(ns_regex, self.ontology)
-        # trim
-        ns = ns[0][7:-2]
-        regex = ns + r"[\Sa-zA-Z0-1]{2,}\""
-        signatures = set(re.findall(regex, self.ontology))
-        signatures = [signature[:-1] for signature in signatures]
+        # set namespaces and load ontology as XML
+        rds_ns = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"
+        owl_ns = "{http://www.w3.org/2002/07/owl#}"
+        onto = ET.parse(self.ontology_path)
+        root = onto.getroot()
+        signatures = []
+
+        for cla in root.findall(owl_ns+'Class') + root.findall('Class'):
+            # if not an anonymous class
+            try:
+                signatures.append(cla.attrib[rds_ns+'about'])
+            except KeyError:
+                pass
         return signatures
 
 
