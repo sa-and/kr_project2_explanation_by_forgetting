@@ -108,11 +108,13 @@ class AndiHeuristic(ForgetHeuristics):
                     if cla.attrib[rds_ns+'about'] == child.attrib[rds_ns+'resource']:
                         next_subsumption = cla
                         break
-
             else:
-                # If no child was found, save the first sigature of the list of still available signatues
-                signatures.append(self.get_available_signatures().pop())
                 break
+
+        if len(signatures) == 0 and self.has_next():
+            # If no child was found, save the first sigature of the list of still available signatues
+            signatures.append(self.get_available_signatures().pop())
+
 
         # delete signatures we want to derive from the signature list
         for sub in self.subsumption:
