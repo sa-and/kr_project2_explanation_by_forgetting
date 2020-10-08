@@ -116,6 +116,7 @@ class Explainer:
             self.set_working_ontology('datasets/result.owl')
 
             signature_to_forget, path = self.forgetHeuristics.choose_next()
+            self.forgetHeuristics.set_ontology('datasets/result.owl')
 
             self.forget_signature(path)  # the resulting ontology is saved in result.owl
             # unfortunately I could not figure out why it can be saved to datasets\result.owl. So we need to copy it.

@@ -1,1 +1,4 @@
-http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping
+http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseTopping
+http://www.co-ode.org/ontologies/pizza/pizza.owl#PizzaTopping
+http://www.co-ode.org/ontologies/pizza/pizza.owl#DomainConcept
+http://www.co-ode.org/ontologies/pizza/pizza.owl#GorgonzolaTopping

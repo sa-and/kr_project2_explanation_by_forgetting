@@ -1,7 +1,7 @@
 # file for random testing
 
 from explainer import Explainer
-from forgetHeuristics import ForgetFromList
+from forgetHeuristics import ForgetFromList, AndiHeuristic
 import glob
 import os
 
@@ -15,24 +15,27 @@ def save_proof(proof):
             os.remove(file)
 
     count = 1
-    for line in proove:
+    for line in proof:
         with open('datasets/proof_line_'+str(count)+'.owl', 'w+') as f:
             f.write(line[1])
 
         count += 1
 
+def print_proof(proof):
+    #print the proove
+    for line in proof:
+        print('forgetting ' + str(line[0]))
+        print(str(line[1]))
+
+
 
 # Pizza example
-with open('datasets/pizza_super_simple.owl') as ont:
-    heur = ForgetFromList(ont.read(), [ "http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping",
-                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#GoatCheeseTopping",
-                                    "http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping"])
+heur = ForgetFromList('datasets/pizza.owl', ["http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping"])
 
-explainer = Explainer("datasets/pizza_super_simple.owl", heur)
+explainer = Explainer("datasets/pizza.owl", heur)
 
 # university example
-#with open('datasets/university-example.owl') as ont:
-#    heur = ForgetFromList(ont.read(), ["http://example.com/myOntology/Professor"])
+#heur = ForgetFromList('datasets/university-example.owl', ["http://example.com/myOntology/Professor"])
 #explainer = Explainer('datasets/university-example.owl', heur)
 
 #explainer.print_all_subclasses()
@@ -42,10 +45,18 @@ explainer = Explainer("datasets/pizza_super_simple.owl", heur)
 #explanations = explainer.load_all_explanations()
 #explanations = explainer.get_all_explanations('datasets/subClasses.nt')
 #print(explanations)
-proove = explainer.get_proove("datasets/subClasses.nt")
-#print the proove
-for line in proove:
-    print('forgetting ' + str(line[0]))
-    print(str(line[1]))
+# proove = explainer.get_proove("datasets/subClasses.nt")
 
-save_proof(proove)
+# save_proof(proove)
+
+
+# testing heuristic
+heur = AndiHeuristic('datasets/pizza.owl',
+                     ("http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyVegetableTopping", "http://www.co-ode.org/ontologies/pizza/pizza.owl#Food"))
+
+explainer = Explainer('datasets/pizza.owl', heur)
+
+proof = explainer.get_proove('datasets/subClasses.nt')
+
+save_proof(proof)
+print_proof(proof)
