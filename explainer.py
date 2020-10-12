@@ -110,10 +110,12 @@ class Explainer:
         while(self.forgetHeuristics.has_next()):
 
             #save the justification to work with it.
-            with open("datasets/result.owl", 'w+') as result:
-                result.write(justification)
+            if justification_step:
+                with open("datasets/result.owl", 'w+') as result:
+                    result.write(justification)
 
             self.set_working_ontology('datasets/result.owl')
+            self.forgetHeuristics.set_ontology('datasets/result.owl')
 
             signature_to_forget, path = self.forgetHeuristics.choose_next()
 

@@ -1,1 +1,2 @@
-http://www.co-ode.org/ontologies/pizza/pizza.owl#SundriedTomatoTopping
+http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza
+http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza
