@@ -45,18 +45,17 @@ explainer = Explainer("datasets/pizza.owl", heur)
 #explanations = explainer.load_all_explanations()
 #explanations = explainer.get_all_explanations('datasets/subClasses.nt')
 #print(explanations)
-# proove = explainer.get_proove("datasets/subClasses.nt")
-
-# save_proof(proove)
-
-
 # testing heuristic
 heur = StandardHeuristics('datasets/pizza.owl',
                      ("http://www.co-ode.org/ontologies/pizza/pizza.owl#Siciliana", "http://www.co-ode.org/ontologies/pizza/pizza.owl#Food"))
 
 explainer = Explainer('datasets/pizza.owl', heur)
 
-proof = explainer.get_proove('datasets/subClasses.nt', justification_step=False)
+proove = explainer.get_proove("datasets/subClasses.nt", justification_step=False)
+#print the proove
+for line in proove:
+    print('forgetting ' + str(line[0]))
+    print(str(line[1]))
 
 save_proof(proof)
 print_proof(proof)
