@@ -94,7 +94,7 @@ class Explainer:
                   ' --method ' + method +
                   ' --signature ' + signatures)
 
-    def get_proove(self, subclass_statement):
+    def get_proove(self, subclass_statement, justification_step=True):
         """
         Generates the forgetting-based proove for a subclass statement. This statement must be entailed by the ontology.
 
@@ -122,7 +122,8 @@ class Explainer:
             copy('result.owl', 'datasets/result.owl')
 
             # set the working ontology to be the first justification for the statement.
-            justification = min(self.get_all_explanations(subclass_statement), key=len)
+            if justification_step:
+                justification = min(self.get_all_explanations(subclass_statement), key=len)
 
             # save ontology and signature
             with open("datasets/result.owl") as o:
