@@ -4,7 +4,7 @@ from explainer import Explainer
 from forgetHeuristics import ForgetFromList, AndiHeuristic, StandardHeuristics
 import glob
 import os
-
+from xmldiff import main as xmldiff
 
 def save_proof(proof):
     # clear previous proof
@@ -21,12 +21,12 @@ def save_proof(proof):
 
         count += 1
 
+
 def print_proof(proof):
     #print the proove
     for line in proof:
         print('forgetting ' + str(line[0]))
         print(str(line[1]))
-
 
 
 # Pizza example
@@ -51,11 +51,18 @@ heur = StandardHeuristics('datasets/pizza.owl',
 
 explainer = Explainer('datasets/pizza.owl', heur)
 
-proove = explainer.get_proove("datasets/subClasses.nt", justification_step=False)
+#proove = explainer.get_proove("datasets/subClasses.nt", justification_step=False)
 #print the proove
-for line in proove:
-    print('forgetting ' + str(line[0]))
-    print(str(line[1]))
+# for line in proove:
+#     print('forgetting ' + str(line[0]))
+#     print(str(line[1]))
+#
+# save_proof(proof)
+# print_proof(proof)
 
-save_proof(proof)
-print_proof(proof)
+# test comparison
+# gets the number of changes that would be needed to transform the left ontology into the right one.
+diffs = xmldiff.diff_files('datasets/pizza_super_simple2.owl', 'datasets/pizza_super_simple.owl')
+# Ignore the order of the nodes. They do not change what is entailed by the Ontology
+diffs = [diff for diff in diffs if str(diff)[:8] != 'MoveNode']
+print(len(diffs))
