@@ -139,3 +139,25 @@ class AndiHeuristic(ForgetHeuristics):
 
         return (signatures, 'datasets\signature.txt')
 
+
+class StandardHeuristics(AndiHeuristic):
+    def __init__(self, ontology_path, subsumption):
+        super(StandardHeuristics, self).__init__(ontology_path, subsumption)
+
+    def choose_next(self):
+        # delete signatures we want to derive from the signature list
+        signatures = self.get_available_signatures()
+        for sub in self.subsumption:
+            if signatures.count(sub) >= 1:
+                signatures.remove(sub)
+
+        # return the first list element if the list is not empty
+        if len(signatures) == 0:
+            return None
+        else:
+            # save signatures
+            with open('datasets\signature.txt', 'w+') as file:
+                 file.write(signatures[0] + '\n')
+
+            return (signatures[0], 'datasets\signature.txt')
+

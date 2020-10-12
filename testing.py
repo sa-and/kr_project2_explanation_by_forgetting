@@ -1,7 +1,7 @@
 # file for random testing
 
 from explainer import Explainer
-from forgetHeuristics import ForgetFromList, AndiHeuristic
+from forgetHeuristics import ForgetFromList, AndiHeuristic, StandardHeuristics
 import glob
 import os
 
@@ -51,12 +51,12 @@ explainer = Explainer("datasets/pizza.owl", heur)
 
 
 # testing heuristic
-heur = AndiHeuristic('datasets/pizza.owl',
+heur = StandardHeuristics('datasets/pizza.owl',
                      ("http://www.co-ode.org/ontologies/pizza/pizza.owl#Siciliana", "http://www.co-ode.org/ontologies/pizza/pizza.owl#Food"))
 
 explainer = Explainer('datasets/pizza.owl', heur)
 
-proof = explainer.get_proove('datasets/subClasses.nt')
+proof = explainer.get_proove('datasets/subClasses.nt', justification_step=False)
 
 save_proof(proof)
 print_proof(proof)
