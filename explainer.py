@@ -98,13 +98,22 @@ class Explainer:
         """
         Generates the forgetting-based proove for a subclass statement. This statement must be entailed by the ontology.
 
-        :param subclass_statement: The statement for which a proove should be generated.
+        :param subclass_statement: The filepath with statements for which a proove should be generated.
         :type subclass_statement: str
         :return: A list of ontologies with the corresponding signature that was forgotten at each step.
         :type return: list(tuple(string, owl_ontology))
         """
         # store the shortest of the justifications
         justification = min(self.get_all_explanations(subclass_statement), key=len)
+        # save the justification to work with it if we do not do the justification each step. Otherwise it
+        # will be done anyways every step.
+        if not justification_step:
+            with open("datasets/result.owl", 'w+') as result:
+                result.write(justification)
+
+            self.set_working_ontology('datasets/result.owl')
+            self.forgetHeuristics.set_ontology('datasets/result.owl')
+
         proove = [(None, justification)]
 
         while(self.forgetHeuristics.has_next()):
@@ -114,8 +123,8 @@ class Explainer:
                 with open("datasets/result.owl", 'w+') as result:
                     result.write(justification)
 
-            self.set_working_ontology('datasets/result.owl')
-            self.forgetHeuristics.set_ontology('datasets/result.owl')
+                self.set_working_ontology('datasets/result.owl')
+                self.forgetHeuristics.set_ontology('datasets/result.owl')
 
             signature_to_forget, path = self.forgetHeuristics.choose_next()
 
@@ -133,6 +142,7 @@ class Explainer:
 
         # reset working ontology
         self.working_ontology = self.ontology
+        self.forgetHeuristics.set_ontology(self.ontology)
 
         return proove
 

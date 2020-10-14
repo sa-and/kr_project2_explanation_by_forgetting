@@ -69,6 +69,9 @@ class AndiHeuristic(ForgetHeuristics):
         super().__init__(ontology_path)
         self.subsumption = subsumption
 
+    def set_subsumption(self, subsumption):
+        self.subsumption = subsumption
+
     def has_next(self):
         # delete signatures we want to derive from the signature list
         signatures = self.get_available_signatures()
