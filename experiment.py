@@ -33,10 +33,10 @@ all_subclasses_file = "datasets/snomed_orga_all_subClasses.nt"
 heuristic = StandardHeuristics(ontology, ('dummy', 'dummy'))
 explainer = Explainer(ontology, heuristic)
 
-# container for amount of differences for each subsumption. 100 if lines of proofs differ
+# container for amount of differences for each subsumption. 100 if lines of proofs differ. -1 if there was an error
 differences = []
 processed_proofs = 0
-num_samples = 5
+num_samples = 50
 
 # loop over all subclasses entailed by the ontology
 with open(all_subclasses_file) as f:
@@ -55,6 +55,7 @@ with open(all_subclasses_file) as f:
             # reset working ontology
             explainer.working_ontology = ontology
             heuristic.set_ontology(ontology)
+            differences.append(-1)
             print("\n\n############################ ERROR ####################################\n\n")
             continue
 
