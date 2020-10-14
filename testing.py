@@ -51,14 +51,14 @@ heur = StandardHeuristics('datasets/pizza.owl',
 
 explainer = Explainer('datasets/pizza.owl', heur)
 
-#proove = explainer.get_proove("datasets/subClasses.nt", justification_step=False)
+proof = explainer.get_proove("datasets/subClasses.nt", justification_step=True)
 #print the proove
-# for line in proove:
-#     print('forgetting ' + str(line[0]))
-#     print(str(line[1]))
+for line in proof:
+    print('forgetting ' + str(line[0]))
+    print(str(line[1]))
 #
-# save_proof(proof)
-# print_proof(proof)
+save_proof(proof)
+print_proof(proof)
 
 # test comparison
 # gets the number of changes that would be needed to transform the left ontology into the right one.
