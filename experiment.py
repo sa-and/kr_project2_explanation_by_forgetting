@@ -4,7 +4,6 @@ import glob
 import os
 from xmldiff import main as xmldiff
 
-
 ############# METHODS #####################
 def get_sub_from_nt(nt_string):
     comp = nt_string.split()
@@ -24,6 +23,12 @@ def save_proof(proof, file_prefix):
             f.write(line[1])
 
         count += 1
+
+def print_proof(proof):
+    #print the proove
+    for line in proof:
+        print('forgetting ' + str(line[0]))
+        print(str(line[1]))
 
 
 ############# SCRIPT #################
@@ -63,12 +68,18 @@ with open(all_subclasses_file) as f:
         if len(proof_just) != len(proof_no_just):  # different number of lines in the proof
             differences.append(100)
         else:
+            printing = False
             for i in range(len(proof_just)):
                 # gets the number of changes that would be needed to transform the left ontology into the right one.
                 diffs = xmldiff.diff_texts(proof_just[i][1], proof_no_just[i][1])
                 # Ignore the order of the nodes. They do not change what is entailed by the Ontology
-                diffs = [diff for diff in diffs if str(diff)[:8] != 'MoveNode']
+                diffs = [diff for diff in diffs if str(diff)[:10] == 'InsertNode']
                 differences.append(len(diffs))
+                if len(diffs) > 0:
+                    printing = True
+
+            print_proof(proof_no_just)
+            print_proof(proof_just)
 
         # save differences after each step so they are available even when program is aborted
         with open('datasets/differences.txt', 'w+') as diff_f:

@@ -105,27 +105,16 @@ class Explainer:
         """
         # store the shortest of the justifications
         justification = min(self.get_all_explanations(subclass_statement), key=len)
-        # save the justification to work with it if we do not do the justification each step. Otherwise it
-        # will be done anyways every step.
-        if not justification_step:
-            with open("datasets/result.owl", 'w+') as result:
-                result.write(justification)
+        # save the justification to work with.
+        with open("datasets/result.owl", 'w+') as result:
+            result.write(justification)
 
-            self.set_working_ontology('datasets/result.owl')
-            self.forgetHeuristics.set_ontology('datasets/result.owl')
+        self.set_working_ontology('datasets/result.owl')
+        self.forgetHeuristics.set_ontology('datasets/result.owl')
 
         proove = [(None, justification)]
 
         while(self.forgetHeuristics.has_next()):
-
-            #save the justification to work with it.
-            if justification_step:
-                with open("datasets/result.owl", 'w+') as result:
-                    result.write(justification)
-
-                self.set_working_ontology('datasets/result.owl')
-                self.forgetHeuristics.set_ontology('datasets/result.owl')
-
             signature_to_forget, path = self.forgetHeuristics.choose_next()
 
             self.forget_signature(path)  # the resulting ontology is saved in result.owl
@@ -135,6 +124,11 @@ class Explainer:
             # set the working ontology to be the first justification for the statement.
             if justification_step:
                 justification = min(self.get_all_explanations(subclass_statement), key=len)
+                with open("datasets/result.owl", 'w+') as result:
+                    result.write(justification)
+
+                self.set_working_ontology('datasets/result.owl')
+                self.forgetHeuristics.set_ontology('datasets/result.owl')
 
             # save ontology and signature
             with open("datasets/result.owl") as o:
