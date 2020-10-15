@@ -155,7 +155,7 @@ class StandardHeuristics(AndiHeuristic):
 
         # return the first list element if the list is not empty
         if len(signatures) == 0:
-            return None
+            return (None, 'datasets/signature.txt')
         else:
             # save signatures
             with open('datasets\signature.txt', 'w+') as file:
