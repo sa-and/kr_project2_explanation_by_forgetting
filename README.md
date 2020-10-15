@@ -16,3 +16,8 @@ If you want more functionality from the OWL-API you might want to modify kr_func
 We also provide the java directory that allows you to do this at the following GIT repository 
 https://github.com/raadjoe/kr_forgetting.git 
  believe you need a Java jdk version in that case. 
+
+# Running the proofer
+
+To run the proofer you need to start 'forget_proofer.py' with python. This can be done with the command 'python3 forget_proofer.py --onto [PATH_TO_ONTOLOGY] --sub [PATH_TO_FILE_WITH_THE_SUBSUMPTION_TO_PROOF] --just [False\True]'. For example, the call'python3 forget_proofer.py --onto datasets/snomed_organism_1.1.owl --sub datasets/subClasses.nt --just False' will print a proof for the subsumption located at 'datasets/subClasses.nt' in the ontology 'datasets/snomed_organism_1.1.owl' and do so without re-calculation a justification after every forget-step.
+
